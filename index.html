@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciar - Controle de Pedidos</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url("fundo.jpg") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-container {
+    background: rgba(0, 26, 61, 0.6);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    text-align: center;
+    color: white;
+    backdrop-filter: blur(4px);
+  }
+
+  .logo-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  .logo-container img {
+    max-width: 45%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .start-button {
+    padding: 15px 30px;
+    background-color: #124a7a;
+    border: none;
+    border-radius: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .start-button:hover {
+    background-color: #0e3560;
+  }
+</style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="logo-container">
+      <img src="logotatu.png" alt="Logo Tatu">
+      <img src="logogk.png" alt="Logo GK">
+    </div>
+
+    <button class="start-button" id="startButton">Iniciar</button>
+  </div>
+
+  <script>
+    const startButton = document.getElementById('startButton');
+    startButton.addEventListener('click', () => {
+      window.location.href = "menu.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Relatório de Pedidos — Moderno</title>
+
+  <!-- Ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Chart.js para gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Link para o CSS separado (deve estar na mesma pasta) -->
+  <link rel="stylesheet" href="Relatoriopedido.css">
+</head>
+<body>
+  <div class="wrap">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" aria-label="navegação">
+      <div class="brand">
+        <!-- substituído para usar logotatu.png local -->
+        <img src="logotatu.png" alt="logo Tatu">
+        <div>
+          <div class="title">Quadro de Pedidos</div>
+          <div class="muted" style="margin-top:4px">Painel central</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="menu">
+        <a href="#" class="active" id="dashboardLink"><i class="fas fa-chart-line"></i> Dashboard</a>
+        <a href="#"><i class="fas fa-file-export"></i> Exportar</a>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main" role="main">
+      <div class="topbar">
+        <div class="left">
+          <button id="backToMenu" class="btn" title="Voltar ao Menu"><i class="fas fa-arrow-left"></i> Voltar</button>
+          <button id="themeBtn" class="btn" title="Alternar tema"><i class="fas fa-moon"></i></button>
+        </div>
+
+        <div class="controls">
+          <button id="exportCsv" class="btn ghost"><i class="fas fa-file-csv"></i> CSV</button>
+          <button id="printBtn" class="btn ghost"><i class="fas fa-print"></i> Imprimir</button>
+        </div>
+      </div>
+
+      <!-- FILTERS -->
+      <section class="filters" aria-label="Filtros">
+        <div class="field">
+          <label for="fPedido">Pedido</label>
+          <input id="fPedido" type="text" placeholder="nº pedido">
+        </div>
+
+        <div class="field">
+          <label for="fCliente">Cliente</label>
+          <input id="fCliente" type="text" placeholder="nome do cliente">
+        </div>
+
+        <div class="field">
+          <label for="fCnpj">CNPJ</label>
+          <input id="fCnpj" type="text" placeholder="00.000.000/0000-00">
+        </div>
+
+        <div class="field">
+          <label for="fStatus">Status</label>
+          <select id="fStatus">
+            <option value="">Todos</option>
+            <option value="Expedido">Expedido</option>
+            <option value="Separado">Separado</option>
+            <option value="Chegado">Chegado</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Período (Data CD)</label>
+          <div style="display:flex;gap:8px">
+            <input id="fFrom" type="date">
+            <input id="fTo" type="date">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>&nbsp;</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="clearFilters" class="btn ghost"><i class="fas fa-trash"></i> Limpar</button>
+            <button id="toggleParticles" class="btn ghost" title="Partículas">✨</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TABLE -->
+      <section class="card-table" aria-label="Tabela de pedidos">
+        <div class="table-scroll">
+          <table id="table">
+            <thead>
+              <tr>
+                <th data-col="pedido">Pedido <span class="sort" id="s-pedido"></span></th>
+                <th data-col="cliente">Cliente <span class="sort" id="s-cliente"></span></th>
+                <th data-col="cnpj">CNPJ <span class="sort" id="s-cnpj"></span></th>
+                <th data-col="data_cd">Data CD <span class="sort" id="s-data_cd"></span></th>
+                <th data-col="data_separado">Data Separado <span class="sort" id="s-data_separado"></span></th>
+                <th data-col="data_expedido">Data Expedido <span class="sort" id="s-data_expedido"></span></th>
+                <th data-col="transportadora">Transportadora <span class="sort" id="s-transportadora"></span></th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL PARA DETALHES -->
+  <div class="modal-backdrop" id="modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Detalhes do Pedido</h3>
+      <div class="grid" id="modalBody"></div>
+      <div style="text-align:right;margin-top:12px;">
+        <button id="closeModal" class="close btn ghost"><i class="fas fa-times"></i> Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PARA DASHBOARD (GRÁFICOS) -->
+  <div class="modal-backdrop" id="dashboardModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dashboardTitle">
+      <h3 id="dashboardTitle">Dashboard - Quantidade por Status</h3>
+      <div id="chartContainer">
+        <canvas id="statusChart"></canvas>
+      </div>
+      <div style="text-align:right;margin-top:12px;">
+        <button id="closeDashboard" class="close btn ghost"><i class="fas fa-times"></i> Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link para o JavaScript separado (deve estar na mesma pasta) -->
+  <script src="Relatoriopedido.js"></script>
+</body>
+</html>

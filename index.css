@@ -1,0 +1,84 @@
+/* Fundo da página */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #001f3f; /* azul escuro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Caixa de login */
+.login-container {
+  background-color: rgba(255, 255, 255, 0.85); /* branco translúcido */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  width: 320px;
+  color: #001f3f; /* texto azul escuro */
+  text-align: center;
+  backdrop-filter: blur(5px); /* desfoque do fundo */
+  transition: transform 0.3s;
+}
+
+.login-container:hover {
+  transform: translateY(-5px); /* efeito leve ao passar o mouse */
+}
+
+/* Logo */
+.login-container img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+/* Título */
+.login-container h1 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+/* Inputs */
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Botão */
+.login-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #0074D9;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.login-container button:hover {
+  background-color: #005fa3;
+  transform: scale(1.05);
+}
+
+/* Link "Esqueci minha senha" */
+.login-container a {
+  display: block;
+  margin-top: 15px;
+  color: #001f3f;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.login-container a:hover {
+  color: #0074D9;
+}

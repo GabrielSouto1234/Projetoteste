@@ -3,44 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quadros de Pedidos</title>
+  <title>Quadros de Pedidos - Lixas Tatu</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="menu.css">
+  
   <style>
-    body { background-color: #ffffff; min-height: 100vh; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-    .modal.show { display: flex; }
-    .pedido-item { transition: transform 0.18s, background-color 0.18s; }
-    .pedido-item:hover { transform: scale(1.02); }
-    .observacao-break { white-space: pre-wrap; word-wrap: break-word; }
-    .custom-shadow { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -1px rgba(0,0,0,0.04); }
-    .top-bar { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-    .card { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); w-[400px]; }
-    #sidebar { overflow-y: auto; }
-    .attention-symbol { color: #FFD700; font-size: 1.2em; }
-    .small-checkbox { transform: scale(0.9); margin-left: 8px; }
-    .container { flex flex-row flex-nowrap justify-between gap-8 w-full px-4 mx-auto overflow-x-hidden; }
-    .pedido-count { display: inline-block; background-color: #ffcc00; color: #1e3d59; font-weight: bold; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem; margin-bottom: 0.5rem; }
-    .count-box { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; }
-    .count-box.cd { background-color: #e6f3ff; color: #007bff; }
-    .count-box.placa { background-color: #fff4e6; color: #f97316; }
-    .count-box.expedido { background-color: #e6ffe6; color: #22c55e; }
-    @media (max-width: 1700px) {
-      .container { transform: scale(0.9); transform-origin: top left; }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
     }
-    @media (max-width: 1500px) {
-      .container { transform: scale(0.8); }
+    .modal.show {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
     }
-    @media (max-width: 1200px) {
-      .container { transform: scale(0.7); }
+    .modal-content {
+      background: #1f2937;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      color: white;
     }
-    @media (max-width: 1000px) {
-      .container { transform: scale(0.6); }
+    .timeline-item { position: relative; padding-left: 30px; margin-bottom: 20px; }
+    .timeline-item::before { content: ''; position: absolute; left: 15px; top: 0; bottom: -20px; width: 2px; background: #4a5568; }
+    .timeline-item:last-child::before { bottom: 0; }
+    .timeline-dot { position: absolute; left: 8px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: #4a90e2; }
+    .status-badge { position: absolute; top: -10px; right: -10px; padding: 4px 8px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
+    
+    /* ✅ BOTÕES BEM DISTRIBUÍDOS */
+    .btns-container {
+      display: flex !important;
+      justify-content: space-evenly !important;
+      align-items: center !important;
+      gap: 1.5rem !important;
+      padding: 1rem 0 !important;
+      width: 100% !important;
+      max-width: 320px !important;
+      margin: 2rem auto 0 !important;
     }
+    .btn-compact {
+      width: 56px !important;
+      height: 56px !important;
+      border-radius: 16px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.3s ease !important;
+      border: none !important;
+      cursor: pointer !important;
+      font-size: 20px !important;
+      flex-shrink: 0 !important;
+    }
+    .btn-data { background: linear-gradient(135deg, #3b82f6, #2563eb) !important; color: white !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3) !important; }
+    .btn-data:hover { transform: scale(1.1) !important; box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4) !important; }
+    .btn-prosseguir { background: linear-gradient(135deg, #10b981, #059669) !important; color: white !important; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important; }
+    .btn-prosseguir:hover { transform: scale(1.1) !important; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important; }
+    .btn-obs { background: linear-gradient(135deg, #f59e0b, #d97706) !important; color: white !important; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3) !important; }
+    .btn-obs:hover { transform: scale(1.1) !important; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4) !important; }
+    .btn-cancelar { background: linear-gradient(135deg, #ef4444, #dc2626) !important; color: white !important; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3) !important; }
+    .btn-cancelar:hover { transform: scale(1.1) !important; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4) !important; }
+    
+    /* ✅ BOTÃO PARTICULAS */
+    .btn-particles {
+      position: relative !important;
+      transition: all 0.3s ease !important;
+    }
+    .btn-particles.active {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4) !important;
+      animation: pulse 2s infinite !important;
+    }
+    .btn-particles:hover { transform: scale(1.1) !important; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    /* ✅ CONTAGEM ANIMADA BONITA */
+    .pedido-count {
+      display: inline-block !important;
+      font-size: 2.5rem !important;
+      font-weight: bold !important;
+      background: linear-gradient(135deg, #60a5fa, #3b82f6) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+      animation: countUp 0.8s ease-out !important;
+      min-width: 2.5rem !important;
+      text-align: center !important;
+    }
+    @keyframes countUp {
+      from { opacity: 0; transform: translateY(20px) scale(0.8); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .count-box {
+      position: relative !important;
+      overflow: hidden !important;
+    }
+    .count-box::after {
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: -100% !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent) !important;
+      animation: shimmer 2s infinite !important;
+    }
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    
+    /* ✅ PARTICULAS VISÍVEIS/INVISÍVEIS */
+    #particles-js { 
+      position: fixed !important; 
+      top: 0 !important; 
+      left: 0 !important; 
+      width: 100% !important; 
+      height: 100% !important; 
+      z-index: -1 !important; 
+      opacity: 0 !important; 
+      transition: opacity 0.5s ease !important;
+    }
+    #particles-js.active { opacity: 1 !important; }
+    
+    .container { overflow-x: hidden !important; }
+    .card { min-width: 0; flex: 1 1 0; }
   </style>
 </head>
-<body class="bg-white flex">
-  <!-- SIDEBAR (hidden by default, non-toggleable) -->
-  <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 h-screen px-3 py-4 overflow-y-auto text-white transform transition-transform duration-300 ease-in-out -translate-x-full z-50" aria-label="Sidebar" style="background-image: linear-gradient(180deg, #007bff 0%, #1e3d59 100%);">
+<body class="dark flex bg-gray-900 text-white">
+  <!-- ✅ PARTICULAS DE FUNDO -->
+  <div id="particles-js"></div>
+  
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 h-screen px-3 py-4 overflow-y-auto text-white transform transition-transform duration-300 ease-in-out -translate-x-full z-50 bg-gray-800" aria-label="Sidebar">
     <div class="flex justify-between items-center mb-5">
       <a href="#" class="flex items-center ps-2.5">
         <img src="logotatu.png" class="h-6 me-3 sm:h-7" alt="Logo Tatu">
@@ -59,825 +165,155 @@
     </nav>
   </aside>
 
-  <!-- principal: no sidebar toggle, so no md:ml-64 -->
+  <!-- MAIN CONTENT -->
   <div class="flex-1 min-h-screen">
-    <!-- top-bar with matching sidebar gradient -->
-    <nav class="top-bar fixed inset-x-0 top-0 h-20 flex items-center justify-between px-6 z-40 bg-white bg-opacity-95 custom-shadow" style="background-image: linear-gradient(90deg, #007bff 0%, #1e3d59 100%);">
-      <!-- Buttons on the left -->
+    <!-- TOP BAR -->
+    <nav class="top-bar fixed inset-x-0 top-0 h-20 flex items-center justify-between px-6 z-40 bg-gray-800 bg-opacity-95 shadow-lg">
       <div class="flex items-center gap-4">
-        <a href="Relatoriopedido.html" class="flex items-center bg-gradient-to-r from-blue-500 to-blue-400 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-500 transition-all duration-200 transform hover:-translate-y-1 custom-shadow">
+        <button id="toggleSidebarBtn" class="text-white text-2xl font-bold md:block hidden">☰</button>
+        <a href="Relatoriopedido.html" class="flex items-center bg-gradient-to-r from-blue-500 to-blue-400 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-500 transition-all duration-200 transform hover:-translate-y-1 shadow-lg">
           <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"></path>
           </svg>
           Relatório
         </a>
-        <a href="#" class="flex items-center bg-gradient-to-r from-blue-500 to-blue-400 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-500 transition-all duration-200 transform hover:-translate-y-1 custom-shadow">
-          <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
-          </svg>
-          Operação
-        </a>
+        <button id="toggleThemeBtn" class="text-white p-2 rounded-full hover:bg-gray-700">🌙</button>
+        <button id="toggleParticlesBtn" class="btn-particles text-white p-2 rounded-full hover:bg-gray-700">✨</button>
+        <button id="deleteAllBtn" class="text-white p-2 rounded-full hover:bg-gray-700">🗑️</button>
       </div>
-      <!-- Contadores and Logos -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 w-full max-w-7xl text-white">
-        <!-- Contadores -->
-        <div class="flex items-center gap-4">
-          <div class="count-box cd">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H4V4h16v16z"></path>
-            </svg>
-            <span>CD: <span id="cdCount">0</span></span>
-          </div>
-          <div class="count-box placa">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"></path>
-            </svg>
-            <span>Placa: <span id="placaCount">0</span></span>
-          </div>
-          <div class="count-box expedido">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M2 8v11.6c0 .6.4 1 1 1h3.6l1.8 1.8c.4.4 1 .4 1.4 0l1.8-1.8H21c.6 0 1-.4 1-1V8h-2v10.6l-1.8 1.8c-.4.4-1 .4-1.4 0l-1.8-1.8H8.4L6.6 19c-.4.4-1 .4-1.4 0L3.4 17.2c-.3-.3-.4-.7-.3-1.1 0-.1 0-.2.1-.3l1.2-3.1h6.3l1.2 3.1c.1.3 0 .7-.3 1H19V8H2zm3-2h14c1.1 0 2-.9 2-2s-.9-2-2-2H5c-1.1 0-2 .9-2 2s.9 2 2 2z"></path>
-            </svg>
-            <span>Expedidos: <span id="expedidoCount">0</span></span>
-          </div>
+      <div class="flex items-center gap-4">
+        <div class="count-box cd bg-blue-500 px-3 py-1 rounded-full">
+          <span id="cdCount">0</span> CD
         </div>
-        <!-- Logos -->
-        <div class="flex items-center gap-4">
-          <img src="logotatu.png" alt="Logo Tatu" class="h-12">
-          <img src="logogk.png" alt="Logo GK" class="h-24">
+        <div class="count-box placa bg-orange-500 px-3 py-1 rounded-full">
+          <span id="placaCount">0</span> Placa
+        </div>
+        <div class="count-box expedido bg-green-500 px-3 py-1 rounded-full">
+          <span id="expedidoCount">0</span> Expedido
         </div>
       </div>
     </nav>
 
-    <!-- Linha ponta a ponta -->
-    <div class="w-full h-0.5 bg-gray-200 my-4 mt-24"></div>
+    <div class="w-full h-0.5 bg-gray-700 my-4 mt-24 opacity-50"></div>
 
-    <!-- Flex container com espaçamento ajustado, sem wrap e sem scrollbar -->
-    <div class="container flex flex-row flex-nowrap justify-between gap-8 w-full px-4 mx-auto pb-12 overflow-x-hidden">
-      <div class="card rounded-xl p-4 text-white custom-shadow" style="background: #1e3d59;">
-        <div class="text-center"><span class="pedido-count">0</span></div>
+    <!-- 4 CARDS COM CONTAGEM ANIMADA -->
+    <div class="container flex flex-row flex-nowrap justify-between gap-4 w-full px-4 mx-auto pb-12">
+      
+      <!-- RECEBIDO -->
+      <div class="card rounded-xl p-4 text-white bg-gray-800 custom-shadow flex-1 min-w-0">
+        <div class="text-center">
+          <span id="recebidoCount" class="pedido-count">0</span>
+        </div>
         <h2 class="text-lg font-bold mb-3 text-center">Recebido no CD</h2>
         <div class="relative">
-          <input type="text" id="searchRecebido" placeholder="Pesquisar pedidos..." class="w-full p-2 rounded-lg bg-white bg-opacity-90 text-gray-800 focus:ring-2 focus:ring-green-500 focus:outline-none">
-          <button id="insertPedidoBtn" class="absolute top-2 right-2 bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-green-600 transition-all">+</button>
+          <input type="text" id="searchRecebido" placeholder="Pesquisar..." class="w-full p-2 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-700 text-sm">
+          <button id="insertPedidoBtn" class="absolute top-2 right-2 bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-green-600 transition-all shadow-lg">+</button>
         </div>
-        <div id="recebidoList" class="mt-3 space-y-2"></div>
+        <div id="recebidoList" class="mt-3 space-y-2 overflow-y-auto max-h-96"></div>
       </div>
 
-      <div class="card rounded-xl p-4 text-white custom-shadow" style="background: #1e3d59;">
-        <div class="text-center"><span class="pedido-count">0</span></div>
+      <!-- PLACA -->
+      <div class="card rounded-xl p-4 text-white bg-gray-800 custom-shadow flex-1 min-w-0">
+        <div class="text-center">
+          <span id="placaCardCount" class="pedido-count">0</span>
+        </div>
         <h2 class="text-lg font-bold mb-3 text-center">Pedido com Placa</h2>
         <div class="relative">
-          <input type="text" id="searchPlaca" placeholder="Pesquisar pedidos com placa..." class="w-full p-2 rounded-lg bg-white bg-opacity-90 text-gray-800 focus:ring-2 focus:ring-green-500 focus:outline-none">
+          <input type="text" id="searchPlaca" placeholder="Pesquisar..." class="w-full p-2 rounded-lg border border-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none bg-gray-700 text-sm">
         </div>
-        <div id="placaList" class="mt-3 space-y-2"></div>
+        <div id="placaList" class="mt-3 space-y-2 overflow-y-auto max-h-96"></div>
       </div>
 
-      <div class="card rounded-xl p-4 text-white custom-shadow" style="background: #1e3d59;">
-        <div class="text-center"><span class="pedido-count">0</span></div>
+      <!-- SEPARADO -->
+      <div class="card rounded-xl p-4 text-white bg-gray-800 custom-shadow flex-1 min-w-0">
+        <div class="text-center">
+          <span id="separadoCount" class="pedido-count">0</span>
+        </div>
         <h2 class="text-lg font-bold mb-3 text-center">Pedidos Separado</h2>
-        <input type="text" id="searchSeparado" placeholder="Pesquisar pedidos..." class="w-full p-2 rounded-lg bg-white bg-opacity-90 text-gray-800 focus:ring-2 focus:ring-green-500 focus:outline-none">
-        <div id="separadoList" class="mt-3 space-y-2"></div>
+        <input type="text" id="searchSeparado" placeholder="Pesquisar..." class="w-full p-2 rounded-lg border border-gray-600 focus:ring-2 focus:ring-green-500 focus:outline-none bg-gray-700 mb-3 text-sm">
+        <div id="separadoList" class="mt-3 space-y-2 overflow-y-auto max-h-96"></div>
       </div>
 
-      <div class="card rounded-xl p-4 text-white custom-shadow" style="background: #1e3d59;">
-        <div class="text-center"><span class="pedido-count">0</span></div>
-        <h2 class="text-lg font-bold mb-3 text-center">Pedidos Expedido</h2>
-        <input type="text" id="searchExpedido" placeholder="Pesquisar pedidos..." class="w-full p-2 rounded-lg bg-white bg-opacity-90 text-gray-800 focus:ring-2 focus:ring-green-500 focus:outline-none">
-        <div id="expedidoList" class="mt-3 space-y-2"></div>
-      </div>
-    </div>
-
-    <!-- Modais com ARIA -->
-    <div class="modal" id="inserirPedidoModal" role="dialog" aria-labelledby="inserirPedidoTitle" aria-hidden="true">
-      <div class="modal-content bg-white bg-opacity-95 rounded-2xl p-6 w-full max-w-md custom-shadow relative">
-        <span class="close-modal text-gray-800 text-2xl cursor-pointer absolute top-4 right-4 hover:scale-110 transition-transform" id="closeInserirModal">&times;</span>
-        <h2 id="inserirPedidoTitle" class="text-xl font-bold text-gray-800 mb-6 text-center">Inserir Pedido</h2>
-        <div class="space-y-4">
-          <div class="flex space-x-2">
-            <input type="text" id="numeroPedido" placeholder="Número do Pedido" maxlength="5" class="flex-1 p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-            <input type="text" id="seriePedido" placeholder="Série" maxlength="1" class="w-1/4 p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-          </div>
-          <input type="text" id="nomeCliente" placeholder="Nome do Cliente" class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-          <input type="date" id="dataChegada" class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-          <div class="flex justify-center space-x-6">
-            <label class="flex items-center space-x-2">
-              <input type="checkbox" id="tatuFlag" class="h-4 w-4 text-green-500 focus:ring-green-500">
-              <span class="font-semibold">TATU</span>
-            </label>
-            <label class="flex items-center space-x-2">
-              <input type="checkbox" id="gkFlag" class="h-4 w-4 text-green-500 focus:ring-green-500">
-              <span class="font-semibold">GK</span>
-            </label>
-          </div>
-          <button id="addPedidoBtn" class="w-full bg-green-500 text-white p-2 rounded-lg font-semibold hover:bg-green-600 transition-all">Inserir Pedido</button>
-          <button id="uploadXmlBtn" class="w-full bg-blue-500 text-white p-2 rounded-lg font-semibold hover:bg-blue-600 transition-all">Carregar XML</button>
+      <!-- EXPEDIDO -->
+      <div class="card rounded-xl p-4 text-white bg-gray-800 custom-shadow flex-1 min-w-0">
+        <div class="text-center">
+          <span id="expedidoCardCount" class="pedido-count">0</span>
         </div>
-        <input type="file" id="xmlFileInput" accept=".xml" multiple style="display: none;">
+        <h2 class="text-lg font-bold mb-3 text-center">Pedidos Expedido</h2>
+        <input type="text" id="searchExpedido" placeholder="Pesquisar..." class="w-full p-2 rounded-lg border border-gray-600 focus:ring-2 focus:ring-purple-500 focus:outline-none bg-gray-700 mb-3 text-sm">
+        <div id="expedidoList" class="mt-3 space-y-2 overflow-y-auto max-h-96"></div>
       </div>
     </div>
 
-    <div class="modal" id="loginModal" role="dialog" aria-labelledby="loginTitle" aria-hidden="true">
-      <div class="modal-content bg-white bg-opacity-95 rounded-2xl p-6 w-full max-w-sm custom-shadow relative">
-        <span class="close-modal text-gray-800 text-2xl cursor-pointer absolute top-4 right-4 hover:scale-110 transition-transform" id="closeLoginModal">&times;</span>
-        <h2 id="loginTitle" class="text-xl font-bold text-gray-800 mb-6 text-center">Login</h2>
-        <input type="text" id="loginUser" placeholder="Usuário" class="w-full p-2 mb-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-        <input type="password" id="loginPass" placeholder="Senha" class="w-full p-2 mb-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-        <button id="loginButton" class="w-full bg-green-500 text-white p-2 rounded-lg font-semibold hover:bg-green-600 transition-all">Entrar</button>
+    <!-- MODAL LOGIN -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeLoginModal">&times;</span>
+        <h2 class="text-xl font-bold mb-4">Login</h2>
+        <input id="loginUser" placeholder="Usuário" class="w-full p-3 mb-3 rounded border bg-gray-700" />
+        <input id="loginPass" type="password" placeholder="Senha" class="w-full p-3 mb-3 rounded border bg-gray-700" />
+        <button id="loginButton" class="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600">Entrar</button>
       </div>
     </div>
 
-    <div class="modal" id="detalhesPedidoModal" role="dialog" aria-labelledby="detalhesPedidoTitle" aria-hidden="true">
-      <div class="modal-content bg-white bg-opacity-95 rounded-2xl p-6 w-full max-w-md custom-shadow" id="detalhesPedidoContent"></div>
-    </div>
-
-    <div class="modal" id="dataSeparacaoModal" role="dialog" aria-labelledby="dataSeparacaoTitle" aria-hidden="true">
-      <div class="modal-content bg-white bg-opacity-95 rounded-2xl p-6 w-full max-w-md custom-shadow relative">
-        <span class="close-modal text-gray-800 text-2xl cursor-pointer absolute top-4 right-4 hover:scale-110 transition-transform" id="closeDataModal">&times;</span>
-        <h2 id="dataSeparacaoTitle" class="text-xl font-bold text-gray-800 mb-6 text-center">Informe a data de separação:</h2>
-        <div class="flex items-center space-x-4 mb-4">
-          <input type="date" id="dataSeparacaoInput" class="flex-1 p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-          <label class="flex items-center space-x-2 bg-gray-100 p-2 rounded-full cursor-pointer hover:bg-gray-200 transition-all">
-            <input type="checkbox" id="parcialFlag" class="h-4 w-4 text-green-500 focus:ring-green-500">
-            <span class="font-semibold">Parcial</span>
+    <!-- ✅ MODAL INSERIR PEDIDO - SEM ALERTS -->
+    <div id="inserirPedidoModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeInserirModal">&times;</span>
+        <h2 class="text-xl font-bold mb-4">Inserir Pedido</h2>
+        <input id="numeroPedido" placeholder="Número" class="w-full p-3 mb-3 rounded border bg-gray-700" maxlength="5"/>
+        <input id="seriePedido" placeholder="Série" class="w-full p-3 mb-3 rounded border bg-gray-700" maxlength="1"/>
+        <input id="nomeCliente" placeholder="Cliente" class="w-full p-3 mb-3 rounded border bg-gray-700" />
+        <input id="dataChegada" type="date" class="w-full p-3 mb-3 rounded border bg-gray-700" />
+        <div class="mb-3">
+          <label class="block mb-2"><input id="tatuFlag" type="radio" name="flag" class="mr-2"> Tatu</label>
+          <label><input id="gkFlag" type="radio" name="flag" class="mr-2"> GK</label>
+        </div>
+        <button id="addPedidoBtn" class="w-full bg-green-500 text-white p-3 rounded hover:bg-green-600">Adicionar</button>
+        <div class="mt-4">
+          <label class="cursor-pointer inline-flex items-center justify-center w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded shadow">
+            📁 Upload XML (SELECIONAR E FECHAR)
+            <input type="file" id="xmlFileInput" accept=".xml" class="hidden" multiple>
           </label>
         </div>
-        <div id="observacaoContainer" class="mb-4">
-          <input type="text" id="observacaoInput" placeholder="Observação" class="w-full p-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-        </div>
-        <button id="confirmarDataBtn" class="w-full bg-green-500 text-white p-2 rounded-lg font-semibold hover:bg-green-600 transition-all">OK</button>
       </div>
     </div>
 
-    <div class="modal" id="expedicaoModal" role="dialog" aria-labelledby="expedicaoTitle" aria-hidden="true">
-      <div class="modal-content bg-white bg-opacity-95 rounded-2xl p-6 w-full max-w-md custom-shadow relative">
-        <span class="close-modal text-gray-800 text-2xl cursor-pointer absolute top-4 right-4 hover:scale-110 transition-transform" id="closeExpedicaoModal">&times;</span>
-        <h2 id="expedicaoTitle" class="text-xl font-bold text-gray-800 mb-6 text-center">Informe os detalhes da expedição:</h2>
-        <label for="transportadoraInput" class="block font-semibold text-gray-800 mb-2">Transportadora:</label>
-        <input type="text" id="transportadoraInput" placeholder="Nome da Transportadora" class="w-full p-2 mb-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-        <label for="dataColetaInput" class="block font-semibold text-gray-800 mb-2">Data da Coleta:</label>
-        <input type="date" id="dataColetaInput" class="w-full p-2 mb-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-        <button id="confirmarExpedicaoBtn" class="w-full bg-green-500 text-white p-2 rounded-lg font-semibold hover:bg-green-600 transition-all">OK</button>
+    <!-- CHATBOT -->
+    <div id="chatbot-window" class="fixed bottom-4 right-4 w-80 h-96 bg-white dark:bg-gray-800 rounded-lg shadow-lg hidden z-50 border">
+      <div class="flex justify-between p-3 border-b dark:border-gray-600">
+        <h3 class="text-blue-500 font-bold">Tatu AI</h3>
+        <span id="chatbot-close" class="cursor-pointer text-xl hover:text-red-500">&times;</span>
+      </div>
+      <div id="chatbot-messages" class="p-3 h-64 overflow-y-auto bg-gray-50 dark:bg-gray-900 text-black dark:text-white"></div>
+      <div class="p-3 flex">
+        <input id="chatbot-input" class="flex-1 p-2 border rounded-l dark:bg-gray-700" placeholder="Digite sua mensagem...">
+        <button id="chatbot-send" class="bg-blue-500 text-white px-4 rounded-r hover:bg-blue-600">▶</button>
       </div>
     </div>
+    <button id="chatbot-button" class="fixed bottom-4 right-16 w-12 h-12 bg-blue-500 text-white rounded-full shadow-lg z-40 hover:bg-blue-600 transition">💬</button>
 
-    <div class="modal" id="alterarObservacaoModal" role="dialog" aria-labelledby="alterarObservacaoTitle" aria-hidden="true">
-      <div class="modal-content bg-white bg-opacity-95 rounded-2xl p-6 w-full max-w-md custom-shadow relative">
-        <span class="close-modal text-gray-800 text-2xl cursor-pointer absolute top-4 right-4 hover:scale-110 transition-transform" id="closeAlterarObsModal">&times;</span>
-        <h2 id="alterarObservacaoTitle" class="text-xl font-bold text-gray-800 mb-6 text-center">Alterar Observação</h2>
-        <input type="text" id="novaObservacaoInput" placeholder="Nova Observação" class="w-full p-2 mb-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-        <button id="confirmarAlterarObsBtn" class="w-full bg-green-500 text-white p-2 rounded-lg font-semibold hover:bg-green-600 transition-all">OK</button>
-      </div>
-    </div>
+  </div>
 
-    <div class="modal" id="alterarVolumeModal" role="dialog" aria-labelledby="alterarVolumeTitle" aria-hidden="true">
-      <div class="modal-content bg-white bg-opacity-95 rounded-2xl p-6 w-full max-w-md custom-shadow relative">
-        <span class="close-modal text-gray-800 text-2xl cursor-pointer absolute top-4 right-4 hover:scale-110 transition-transform" id="closeAlterarVolumeModal">&times;</span>
-        <h2 id="alterarVolumeTitle" class="text-xl font-bold text-gray-800 mb-6 text-center">Alterar Volume</h2>
-        <label for="novoVolume" class="block font-semibold text-gray-800 mb-2">Volume:</label>
-        <select id="novoVolume" class="w-full p-2 mb-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-          <option value="Total">Total</option>
-          <option value="Parcial">Parcial</option>
-        </select>
-        <label for="novaObservacaoVolume" class="block font-semibold text-gray-800 mb-2">Observação:</label>
-        <input type="text" id="novaObservacaoVolume" placeholder="Observação (obrigatório se Parcial)" class="w-full p-2 mb-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-        <button id="confirmarAlterarVolumeBtn" class="w-full bg-green-500 text-white p-2 rounded-lg font-semibold hover:bg-green-600 transition-all">OK</button>
+  <!-- MODAL DETALHES PEDIDO -->
+  <div id="detalhesPedidoModal" class="modal">
+    <div class="modal-content max-w-4xl max-h-[95vh] overflow-y-auto">
+      <div id="detalhesPedidoContent">
+        <!-- CONTEÚDO CARREGA AQUI -->
       </div>
     </div>
   </div>
 
-<script>
-  /* --- elementos --- */
-  const sidebar = document.getElementById('sidebar');
-  const closeSidebarBtn = document.getElementById('closeSidebarBtn');
-  const recebidoList = document.getElementById('recebidoList');
-  const placaList = document.getElementById('placaList');
-  const separadoList = document.getElementById('separadoList');
-  const expedidoList = document.getElementById('expedidoList');
-  const searchRecebido = document.getElementById('searchRecebido');
-  const searchPlaca = document.getElementById('searchPlaca');
-  const searchSeparado = document.getElementById('searchSeparado');
-  const searchExpedido = document.getElementById('searchExpedido');
-  const inserirPedidoModal = document.getElementById('inserirPedidoModal');
-  const insertPedidoBtn = document.getElementById('insertPedidoBtn');
-  const loginModal = document.getElementById('loginModal');
-  const loginButton = document.getElementById('loginButton');
-  const closeLoginModal = document.getElementById('closeLoginModal');
-  const closeInserirModal = document.getElementById('closeInserirModal');
-  const detalhesPedidoModal = document.getElementById('detalhesPedidoModal');
-  const detalhesPedidoContent = document.getElementById('detalhesPedidoContent');
-  const dataSeparacaoModal = document.getElementById('dataSeparacaoModal');
-  const dataSeparacaoInput = document.getElementById('dataSeparacaoInput');
-  const confirmarDataBtn = document.getElementById('confirmarDataBtn');
-  const closeDataModal = document.getElementById('closeDataModal');
-  const expedicaoModal = document.getElementById('expedicaoModal');
-  const transportadoraInput = document.getElementById('transportadoraInput');
-  const dataColetaInput = document.getElementById('dataColetaInput');
-  const confirmarExpedicaoBtn = document.getElementById('confirmarExpedicaoBtn');
-  const closeExpedicaoModal = document.getElementById('closeExpedicaoModal');
-  const alterarObservacaoModal = document.getElementById('alterarObservacaoModal');
-  const novaObservacaoInput = document.getElementById('novaObservacaoInput');
-  const confirmarAlterarObsBtn = document.getElementById('confirmarAlterarObsBtn');
-  const closeAlterarObsModal = document.getElementById('closeAlterarObsModal');
-  const alterarVolumeModal = document.getElementById('alterarVolumeModal');
-  const novoVolume = document.getElementById('novoVolume');
-  const novaObservacaoVolume = document.getElementById('novaObservacaoVolume');
-  const confirmarAlterarVolumeBtn = document.getElementById('confirmarAlterarVolumeBtn');
-  const closeAlterarVolumeModal = document.getElementById('closeAlterarVolumeModal');
-  const numeroPedido = document.getElementById('numeroPedido');
-  const seriePedido = document.getElementById('seriePedido');
-  const nomeCliente = document.getElementById('nomeCliente');
-  const dataChegada = document.getElementById('dataChegada');
-  const tatuFlag = document.getElementById('tatuFlag');
-  const gkFlag = document.getElementById('gkFlag');
-  const addPedidoBtn = document.getElementById('addPedidoBtn');
-  const parcialFlag = document.getElementById('parcialFlag');
-  const observacaoContainer = document.getElementById('observacaoContainer');
-  const observacaoInput = document.getElementById('observacaoInput');
-  const uploadXmlBtn = document.getElementById('uploadXmlBtn');
-  const xmlFileInput = document.getElementById('xmlFileInput');
-  const cdCount = document.getElementById('cdCount');
-  const placaCount = document.getElementById('placaCount');
-  const expedidoCount = document.getElementById('expedidoCount');
-
-  let logado = sessionStorage.getItem('logado') === 'true';
-  let pedidoAtual = null;
-
-  // Função para sanitizar inputs contra XSS
-  function sanitizeInput(input) {
-    if (!input) return '';
-    const div = document.createElement('div');
-    div.textContent = input;
-    return div.innerHTML;
-  }
-
-  // Função para validar formato de data
-  function isValidDate(dateStr) {
-    return dateStr && /^\d{4}-\d{2}-\d{2}$/.test(dateStr) && !isNaN(new Date(dateStr).getTime());
-  }
-
-  // Função para debouncing
-  function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), wait);
-    };
-  }
-
-  // Função para salvar pedidos no localStorage
-  function savePedidos() {
-    const pedidos = [];
-    [recebidoList, placaList, separadoList, expedidoList].forEach(list => {
-      Array.from(list.getElementsByClassName('pedido-item')).forEach(item => {
-        pedidos.push(JSON.parse(item.dataset.pedido));
-      });
-    });
-    localStorage.setItem('pedidos', JSON.stringify(pedidos));
-  }
-
-  // Função para carregar pedidos do localStorage
-  function loadPedidos() {
-    const pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
-    pedidos.forEach(pedidoData => {
-      const item = createPedidoItem(pedidoData);
-      const list = getListForPedido(pedidoData);
-      list.appendChild(item);
-    });
-    atualizarContagens();
-  }
-
-  // Função auxiliar para criar item de pedido
-  function createPedidoItem(pedidoData) {
-    const item = document.createElement('div');
-    item.classList.add('pedido-item', pedidoData.volume === 'Parcial' ? 'parcial' : 'total', 'flex', 'items-start', 'justify-between', 'p-2', 'rounded-lg', pedidoData.volume === 'Parcial' ? 'bg-orange-500' : 'bg-green-600', 'text-white', 'cursor-pointer', 'border-2', pedidoData.volume === 'Parcial' ? 'border-orange-700' : 'border-yellow-400');
-    
-    const flagSpan = document.createElement('span');
-    flagSpan.classList.add('flag-label', 'px-2', 'py-1', 'rounded', 'font-semibold');
-    
-    const imgFlag = document.createElement('img');
-    imgFlag.src = pedidoData.flag === 'TATU' ? 'logotatu.png' : 'logogk.png';
-    imgFlag.alt = pedidoData.flag;
-    imgFlag.classList.add(pedidoData.flag === 'TATU' ? 'h-6' : 'h-14');
-    imgFlag.style.marginRight = '6px';
-    flagSpan.appendChild(imgFlag);
-    
-    const text = document.createElement('span');
-    text.classList.add('whitespace-normal', 'break-words');
-    text.textContent = `${sanitizeInput(pedidoData.numero)}/${sanitizeInput(pedidoData.serie)} - ${sanitizeInput(pedidoData.cliente)}`;
-    
-    if (pedidoData.volume === 'Parcial') {
-      const symbol = document.createElement('span');
-      symbol.classList.add('attention-symbol');
-      symbol.textContent = '⚠️';
-      item.appendChild(symbol);
-    }
-    
-    item.appendChild(flagSpan);
-    item.appendChild(text);
-    
-    item.dataset.pedido = JSON.stringify(pedidoData);
-    
-    item.addEventListener('click', () => {
-      const origem = getOrigem(item);
-      if (origem) abrirDetalhesPedido(item, origem);
-    });
-    
-    return item;
-  }
-
-  // Função para determinar a lista correta para um pedido
-  function getListForPedido(pedidoData) {
-    if (pedidoData.transportadora && pedidoData.dataColeta) return expedidoList;
-    if (pedidoData.separacao) return pedidoData.volume === 'Parcial' ? placaList : separadoList;
-    return recebidoList;
-  }
-
-  /* --- função para atualizar contagens dos containers --- */
-  function atualizarContagens() {
-    const containers = [
-      { list: recebidoList, countElement: recebidoList.parentElement.querySelector('.pedido-count') },
-      { list: placaList, countElement: placaList.parentElement.querySelector('.pedido-count') },
-      { list: separadoList, countElement: separadoList.parentElement.querySelector('.pedido-count') },
-      { list: expedidoList, countElement: expedidoList.parentElement.querySelector('.pedido-count') }
-    ];
-    containers.forEach(container => {
-      const count = container.list.getElementsByClassName('pedido-item').length;
-      container.countElement.textContent = count;
-    });
-    atualizarContagensMes();
-    savePedidos();
-  }
-
-  /* --- função para atualizar contagens do mês atual na top-bar --- */
-  function atualizarContagensMes() {
-    let cdTotal = 0;
-    let placaTotal = 0;
-    let expedidoTotal = 0;
-
-    // Contar pedidos em recebidoList para cdTotal
-    const recebidoPedidos = recebidoList.getElementsByClassName('pedido-item');
-    cdTotal = recebidoPedidos.length;
-
-    // Contar pedidos em placaList para placaTotal
-    const placaPedidos = placaList.getElementsByClassName('pedido-item');
-    placaTotal = placaPedidos.length;
-
-    // Contar pedidos em expedidoList para expedidoTotal
-    const expedidoPedidos = expedidoList.getElementsByClassName('pedido-item');
-    expedidoTotal = expedidoPedidos.length;
-
-    cdCount.textContent = cdTotal;
-    placaCount.textContent = placaTotal;
-    expedidoCount.textContent = expedidoTotal;
-  }
-
-  /* --- utilitários --- */
-  function formatarDataBrasileira(data) {
-    if (!data || !isValidDate(data)) return '';
-    const [ano, mes, dia] = data.split('-');
-    return `${dia}/${mes}/${ano}`;
-  }
-
-  function getOrigem(item) {
-    if (recebidoList.contains(item)) return 'recebido';
-    if (placaList.contains(item)) return 'placa';
-    if (separadoList.contains(item)) return 'separado';
-    if (expedidoList.contains(item)) return 'expedido';
-    return null;
-  }
-
-  function filtrarPedidos(lista, input, searchTerm) {
-    const pedidos = lista.getElementsByClassName('pedido-item');
-    for (let pedido of pedidos) {
-      const pedidoData = JSON.parse(pedido.dataset.pedido);
-      const texto = `${pedidoData.numero}/${pedidoData.serie} ${pedidoData.cliente}`.toLowerCase();
-      pedido.style.display = texto.includes(searchTerm.toLowerCase()) ? '' : 'none';
-    }
-  }
-
-  searchRecebido?.addEventListener('input', debounce(() => filtrarPedidos(recebidoList, searchRecebido, searchRecebido.value), 300));
-  searchPlaca?.addEventListener('input', debounce(() => filtrarPedidos(placaList, searchPlaca, searchPlaca.value), 300));
-  searchSeparado?.addEventListener('input', debounce(() => filtrarPedidos(separadoList, searchSeparado, searchSeparado.value), 300));
-  searchExpedido?.addEventListener('input', debounce(() => filtrarPedidos(expedidoList, searchExpedido, searchExpedido.value), 300));
-
-  tatuFlag.addEventListener('change', () => { if (tatuFlag.checked) gkFlag.checked = false; });
-  gkFlag.addEventListener('change', () => { if (gkFlag.checked) tatuFlag.checked = false; });
-
-  insertPedidoBtn.addEventListener('click', () => {
-    if (logado) inserirPedidoModal.classList.add('show');
-    else loginModal.classList.add('show');
-  });
-
-  closeLoginModal.addEventListener('click', () => loginModal.classList.remove('show'));
-  closeInserirModal.addEventListener('click', () => inserirPedidoModal.classList.remove('show'));
-  closeDataModal.addEventListener('click', () => dataSeparacaoModal.classList.remove('show'));
-  closeExpedicaoModal.addEventListener('click', () => expedicaoModal.classList.remove('show'));
-  closeAlterarObsModal.addEventListener('click', () => alterarObservacaoModal.classList.remove('show'));
-  closeAlterarVolumeModal.addEventListener('click', () => alterarVolumeModal.classList.remove('show'));
-
-  loginButton.addEventListener('click', () => {
-    // TODO: Replace hardcoded credentials with secure authentication (e.g., backend API)
-    if (document.getElementById('loginUser').value === 'admin' &&
-        document.getElementById('loginPass').value === 'adminmatrix') {
-      logado = true;
-      sessionStorage.setItem('logado', 'true');
-      loginModal.classList.remove('show');
-      inserirPedidoModal.classList.add('show');
-    } else {
-      alert("Usuário ou senha incorretos!");
-    }
-  });
-
-  function setItemParcial(item) {
-    item.classList.remove('total', 'bg-green-600', 'border-yellow-400');
-    const cls = ['parcial', 'bg-orange-500', 'text-white', 'border-2', 'border-orange-700'];
-    item.classList.add(...cls.filter(Boolean));
-    if (!item.querySelector('.attention-symbol')) {
-      const symbol = document.createElement('span');
-      symbol.classList.add('attention-symbol');
-      symbol.textContent = '⚠️';
-      item.insertBefore(symbol, item.lastChild);
-    }
-  }
-
-  function setItemTotal(item) {
-    item.classList.remove('parcial', 'bg-orange-500', 'border-orange-700');
-    const cls = ['total', 'bg-green-600', 'text-white', 'border-2', 'border-yellow-400'];
-    item.classList.add(...cls.filter(Boolean));
-    const symbol = item.querySelector('.attention-symbol');
-    if (symbol) item.removeChild(symbol);
-  }
-
-  addPedidoBtn.addEventListener('click', () => {
-    if (!numeroPedido.value || !seriePedido.value || !nomeCliente.value || !dataChegada.value) {
-      alert("Preencha todos os campos!");
-      return;
-    }
-    if (!isValidDate(dataChegada.value)) {
-      alert("Data de chegada inválida!");
-      return;
-    }
-    if (!tatuFlag.checked && !gkFlag.checked) {
-      alert("Selecione uma base (TATU ou GK)!");
-      return;
-    }
-
-    const pedidoData = {
-      numero: sanitizeInput(numeroPedido.value),
-      serie: sanitizeInput(seriePedido.value),
-      cliente: sanitizeInput(nomeCliente.value),
-      chegada: dataChegada.value,
-      flag: tatuFlag.checked ? 'TATU' : 'GK',
-      separacao: null,
-      volume: "Total",
-      observacao: null,
-      transportadora: null,
-      dataColeta: null
-    };
-
-    const item = createPedidoItem(pedidoData);
-    recebidoList.appendChild(item);
-    atualizarContagens();
-
-    inserirPedidoModal.classList.remove('show');
-    numeroPedido.value = '';
-    seriePedido.value = '';
-    nomeCliente.value = '';
-    dataChegada.value = '';
-    tatuFlag.checked = false;
-    gkFlag.checked = false;
-  });
-
-  uploadXmlBtn.addEventListener('click', () => {
-    xmlFileInput.click();
-  });
-
-  xmlFileInput.addEventListener('change', (e) => {
-    const files = e.target.files;
-    Array.from(files).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const xmlText = event.target.result;
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-        const errorNode = xmlDoc.querySelector("parsererror");
-        if (errorNode) {
-          alert("Erro ao parsear XML: " + file.name);
-          return;
-        }
-
-        const numeroNode = xmlDoc.querySelector("NumeroPedido");
-        if (!numeroNode) {
-          alert("Tag NumeroPedido não encontrada em " + file.name);
-          return;
-        }
-        let numeroPedidoXml = numeroNode.textContent;
-        numeroPedidoXml = numeroPedidoXml.replace('-', '/');
-        const [numero, serie] = numeroPedidoXml.split('/');
-        const flag = numero.length === 5 ? 'TATU' : numero.length === 4 ? 'GK' : null;
-        if (!flag) {
-          alert("Comprimento inválido do número do pedido em " + file.name);
-          return;
-        }
-
-        const nomeClienteNode = xmlDoc.querySelector("NomeCliente");
-        if (!nomeClienteNode) {
-          alert("Tag NomeCliente não encontrada em " + file.name);
-          return;
-        }
-
-        const allLists = [recebidoList, placaList, separadoList, expedidoList];
-        let pedidoExistente = false;
-        for (const list of allLists) {
-          const pedidos = list.getElementsByClassName('pedido-item');
-          for (const pedido of pedidos) {
-            const pedidoData = JSON.parse(pedido.dataset.pedido);
-            if (pedidoData.numero === numero && pedidoData.serie === serie) {
-              pedidoExistente = true;
-              break;
-            }
-          }
-          if (pedidoExistente) break;
-        }
-
-        if (pedidoExistente) {
-          alert(`Pedido ${numero}/${serie} já existe e não será carregado: ${file.name}`);
-          return;
-        }
-
-        const dataChegadaXml = xmlDoc.querySelector("DataChegada") ? xmlDoc.querySelector("DataChegada").textContent : null;
-        const dataSeparacaoXml = xmlDoc.querySelector("DataSeparacao") ? xmlDoc.querySelector("DataSeparacao").textContent : null;
-        const observacaoXml = xmlDoc.querySelector("Observacao") ? xmlDoc.querySelector("Observacao").textContent : null;
-        const transportadoraXml = xmlDoc.querySelector("Transportadora") ? xmlDoc.querySelector("Transportadora").textContent : null;
-        const dataColetaXml = xmlDoc.querySelector("DataColeta") ? xmlDoc.querySelector("DataColeta").textContent : null;
-
-        const months = {
-          "jan": "01", "fev": "02", "mar": "03", "abr": "04", "mai": "05", "jun": "06",
-          "jul": "07", "ago": "08", "set": "09", "out": "10", "nov": "11", "dez": "12"
-        };
-
-        function parseDate(dateStr) {
-          if (!dateStr) return null;
-          if (isVOlidDate(dateStr)) return dateStr;
-          const parts = dateStr.split('/');
-          if (parts.length === 3) return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
-          const [day, monthStr] = parts;
-          const month = months[monthStr.toLowerCase()] || (monthStr.padStart ? monthStr.padStart(2, '0') : '01');
-          const year = new Date().getFullYear();
-          return `${year}-${month}-${day.padStart(2, '0')}`;
-        }
-
-        const dataChegadaParsed = parseDate(dataChegadaXml);
-        const dataSeparacaoParsed = parseDate(dataSeparacaoXml);
-        const dataColetaParsed = parseDate(dataColetaXml);
-
-        const pedidoData = {
-          numero: sanitizeInput(numero),
-          serie: sanitizeInput(serie),
-          cliente: sanitizeInput(nomeClienteNode.textContent),
-          chegada: dataChegadaParsed,
-          flag: flag,
-          separacao: dataSeparacaoParsed,
-          volume: dataSeparacaoParsed && observacaoXml && /placa/i.test(observacaoXml) ? "Parcial" : "Total",
-          observacao: sanitizeInput(observacaoXml),
-          transportadora: sanitizeInput(transportadoraXml),
-          dataColeta: dataColetaParsed
-        };
-
-        const item = createPedidoItem(pedidoData);
-        const list = getListForPedido(pedidoData);
-        list.appendChild(item);
-        atualizarContagens();
-      };
-      reader.readAsText(file);
-    });
-    inserirPedidoModal.classList.remove('show');
-    e.target.value = '';
-  });
-
-  function abrirDetalhesPedido(item, origem) {
-    const pedidoData = JSON.parse(item.dataset.pedido);
-
-    function quebraLinhaObs(texto, max = 40) {
-      if (!texto) return '';
-      let palavras = texto.split(' ');
-      let linha = '';
-      let resultado = '';
-      for (let i = 0; i < palavras.length; i++) {
-        if ((linha + palavras[i]).length > max) {
-          resultado += linha.trim() + '\n';
-          linha = palavras[i] + ' ';
-        } else linha += palavras[i] + ' ';
-      }
-      resultado += linha.trim();
-      return resultado;
-    }
-
-    let observacaoFormatada = quebraLinhaObs(pedidoData.observacao);
-
-    detalhesPedidoContent.innerHTML = `
-      <button class="close-modal text-gray-800 text-2xl cursor-pointer absolute top-4 right-4 hover:scale-110 transition-transform" id="closeDetalhesModal">X</button>
-      <div class="text-gray-800 uppercase space-y-2">
-        <p><strong>Pedido:</strong> ${sanitizeInput(pedidoData.numero)}/${sanitizeInput(pedidoData.serie)}</p>
-        <p><strong>Cliente:</strong> ${sanitizeInput(pedidoData.cliente)}</p>
-        <p><strong>Data Chegada:</strong> ${formatarDataBrasileira(pedidoData.chegada) || '-'}</p>
-        <p><strong>Base:</strong> ${sanitizeInput(pedidoData.flag)}</p>
-        ${pedidoData.separacao ? `<p><strong>Data Separação:</strong> ${formatarDataBrasileira(pedidoData.separacao)}</p>` : ''}
-        <p><strong>Volume:</strong> ${sanitizeInput(pedidoData.volume || 'Total')}</p>
-        ${observacaoFormatada ? `
-          <div class="flex items-start space-x-2">
-            <p class="w-full"><strong>Observação:</strong> <span class="observacao-break">${sanitizeInput(observacaoFormatada)}</span></p>
-            ${logado && (origem === 'separado' || origem === 'expedido' || origem === 'placa') ? '<div><button class="alterar-obs bg-blue-500 text-white px-3 py-1 rounded-lg font-semibold hover:bg-blue-600 transition-all">Alterar</button></div>' : ''}
-          </div>
-        ` : logado && (origem === 'separado' || origem === 'expedido' || origem === 'placa') ? `
-          <div class="flex items-center space-x-2">
-            <p><strong>Observação:</strong> -</p>
-            <button class="alterar-obs bg-blue-500 text-white px-3 py-1 rounded-lg font-semibold hover:bg-blue-600 transition-all">Alterar</button>
-          </div>
-        ` : ''}
-        ${pedidoData.transportadora ? `<p><strong>Transportadora:</strong> ${sanitizeInput(pedidoData.transportadora)}</p>` : ''}
-        ${pedidoData.dataColeta ? `<p><strong>Data da Coleta:</strong> ${formatarDataBrasileira(pedidoData.dataColeta)}</p>` : ''}
-        ${logado ? `
-          <div class="flex space-x-2 mt-4">
-            ${origem !== 'expedido' ? '<button class="prosseguir bg-green-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-600 transition-all">Prosseguir</button>' : ''}
-            <button class="excluir bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 transition-all">Excluir</button>
-            ${(origem === 'separado' || origem === 'expedido' || origem === 'placa') ? '<button class="alterar-volume bg-purple-500 text-white px-3 py-1 rounded-lg font-semibold hover:bg-purple-600 transition-all">Alterar Volume</button>' : ''}
-          </div>
-        ` : ''}
-        <button class="fechar-modal bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-all w-full mt-4">Fechar</button>
+  <!-- MODAL APAGAR TODOS PEDIDOS -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-2xl p-6 max-w-md mx-auto">
+      <div id="deleteModalContent">
+        <!-- CONTEÚDO DINÂMICO AQUI -->
       </div>
-    `;
-    detalhesPedidoModal.classList.add('show');
+    </div>
+  </div>
 
-    detalhesPedidoContent.querySelector('#closeDetalhesModal')?.addEventListener('click', () => detalhesPedidoModal.classList.remove('show'), { once: true });
-
-    const fecharModalBtn = detalhesPedidoContent.querySelector('.fechar-modal');
-    if (fecharModalBtn) {
-      fecharModalBtn.addEventListener('click', () => detalhesPedidoModal.classList.remove('show'), { once: true });
-    }
-
-    const prosseguirBtn = detalhesPedidoContent.querySelector('.prosseguir');
-    if (prosseguirBtn) prosseguirBtn.addEventListener('click', () => {
-      pedidoAtual = { item, pedidoData, origem };
-      detalhesPedidoModal.classList.remove('show');
-      if (origem === 'recebido') dataSeparacaoModal.classList.add('show');
-      else if (origem === 'separado' || origem === 'placa') expedicaoModal.classList.add('show');
-    }, { once: true });
-
-    const excluirBtn = detalhesPedidoContent.querySelector('.excluir');
-    if (excluirBtn) excluirBtn.addEventListener('click', () => {
-      switch (origem) {
-        case 'recebido':
-          if (recebidoList.contains(item)) recebidoList.removeChild(item);
-          break;
-        case 'placa':
-          if (placaList.contains(item)) placaList.removeChild(item);
-          break;
-        case 'separado':
-          if (separadoList.contains(item)) separadoList.removeChild(item);
-          break;
-        case 'expedido':
-          if (expedidoList.contains(item)) expedidoList.removeChild(item);
-          break;
-      }
-      detalhesPedidoModal.classList.remove('show');
-      atualizarContagens();
-    }, { once: true });
-
-    const alterarObsBtn = detalhesPedidoContent.querySelector('.alterar-obs');
-    if (alterarObsBtn) alterarObsBtn.addEventListener('click', () => {
-      pedidoAtual = { item, pedidoData, origem };
-      novaObservacaoInput.value = pedidoData.observacao || '';
-      detalhesPedidoModal.classList.remove('show');
-      alterarObservacaoModal.classList.add('show');
-    }, { once: true });
-
-    const alterarVolumeBtn = detalhesPedidoContent.querySelector('.alterar-volume');
-    if (alterarVolumeBtn) alterarVolumeBtn.addEventListener('click', () => {
-      pedidoAtual = { item, pedidoData, origem };
-      novoVolume.value = pedidoData.volume || 'Total';
-      novaObservacaoVolume.value = pedidoData.observacao || '';
-      detalhesPedidoModal.classList.remove('show');
-      alterarVolumeModal.classList.add('show');
-    }, { once: true });
-  }
-
-  confirmarDataBtn.addEventListener('click', () => {
-    if (!dataSeparacaoInput.value || !isValidDate(dataSeparacaoInput.value)) {
-      alert("Informe uma data de separação válida!");
-      return;
-    }
-    if (pedidoAtual) {
-      const { item, pedidoData, origem } = pedidoAtual;
-      const dataSeparacao = new Date(dataSeparacaoInput.value);
-      const dataChegadaDt = pedidoData.chegada ? new Date(pedidoData.chegada) : null;
-      if (dataChegadaDt && dataSeparacao < dataChegadaDt) {
-        alert("A data de separação não pode ser anterior à data de chegada!");
-        return;
-      }
-
-      pedidoData.separacao = dataSeparacaoInput.value;
-
-      if (parcialFlag.checked) {
-        if (!observacaoInput.value) {
-          alert("Observação é obrigatória para volume Parcial!");
-          return;
-        }
-        pedidoData.volume = "Parcial";
-        pedidoData.observacao = sanitizeInput(observacaoInput.value);
-        setItemParcial(item);
-        if (origem === 'recebido') placaList.appendChild(item);
-      } else {
-        pedidoData.volume = "Total";
-        pedidoData.observacao = observacaoInput.value ? sanitizeInput(observacaoInput.value) : null;
-        pedidoData.placa = observacaoInput.value ? /placa/i.test(observacaoInput.value) : false;
-        setItemTotal(item);
-        if (origem === 'recebido') separadoList.appendChild(item);
-      }
-
-      item.dataset.pedido = JSON.stringify(pedidoData);
-      atualizarContagens();
-    }
-    dataSeparacaoModal.classList.remove('show');
-    dataSeparacaoInput.value = '';
-    observacaoInput.value = '';
-    parcialFlag.checked = false;
-  });
-
-  confirmarExpedicaoBtn.addEventListener('click', () => {
-    if (!transportadoraInput.value || !dataColetaInput.value || !isValidDate(dataColetaInput.value)) {
-      alert("Informe uma transportadora e uma data de coleta válida!");
-      return;
-    }
-    if (pedidoAtual) {
-      const { item, pedidoData, origem } = pedidoAtual;
-      const dataColeta = new Date(dataColetaInput.value);
-      const dataSeparacao = pedidoData.separacao ? new Date(pedidoData.separacao) : null;
-      if (dataSeparacao && dataColeta < dataSeparacao) {
-        alert("A data da coleta não pode ser anterior à data de separação!");
-        return;
-      }
-
-      pedidoData.transportadora = sanitizeInput(transportadoraInput.value);
-      pedidoData.dataColeta = dataColetaInput.value;
-
-      if (origem === 'separado' || origem === 'placa') expedidoList.appendChild(item);
-      item.dataset.pedido = JSON.stringify(pedidoData);
-      atualizarContagens();
-    }
-    expedicaoModal.classList.remove('show');
-    transportadoraInput.value = '';
-    dataColetaInput.value = '';
-  });
-
-  confirmarAlterarObsBtn.addEventListener('click', () => {
-    if (pedidoAtual) {
-      const { item, pedidoData } = pedidoAtual;
-      pedidoData.observacao = novaObservacaoInput.value ? sanitizeInput(novaObservacaoInput.value) : null;
-      item.dataset.pedido = JSON.stringify(pedidoData);
-      atualizarContagens();
-    }
-    alterarObservacaoModal.classList.remove('show');
-    novaObservacaoInput.value = '';
-  });
-
-  confirmarAlterarVolumeBtn.addEventListener('click', () => {
-    if (pedidoAtual) {
-      const { item, pedidoData, origem } = pedidoAtual;
-      const novoVolumeSelecionado = novoVolume.value;
-      if (novoVolumeSelecionado === 'Parcial' && !novaObservacaoVolume.value) {
-        alert("Observação é obrigatória para volume Parcial!");
-        return;
-      }
-      pedidoData.volume = novoVolumeSelecionado;
-      pedidoData.observacao = novoVolumeSelecionado === 'Parcial' ? sanitizeInput(novaObservacaoVolume.value) : novaObservacaoVolume.value ? sanitizeInput(novaObservacaoVolume.value) : null;
-
-      if (novoVolumeSelecionado === 'Parcial') {
-        setItemParcial(item);
-        if (origem === 'separado' || origem === 'expedido') {
-          placaList.appendChild(item);
-        }
-      } else {
-        setItemTotal(item);
-        if (origem === 'placa') {
-          separadoList.appendChild(item);
-        }
-      }
-
-      item.dataset.pedido = JSON.stringify(pedidoData);
-      atualizarContagens();
-    }
-    alterarVolumeModal.classList.remove('show');
-    novoVolume.value = 'Total';
-    novaObservacaoVolume.value = '';
-  });
-
-  // Carregar pedidos do localStorage ao iniciar
-  window.addEventListener('load', loadPedidos);
-
-  // Inicializar contagens ao carregar a página
-  atualizarContagens();
-</script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="menu.js"></script>
 </body>
 </html>
